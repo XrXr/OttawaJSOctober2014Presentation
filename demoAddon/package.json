@@ -1,0 +1,9 @@
+{
+  "name": "ottawajs-october",
+  "title": "OttawaJS October",
+  "id": "force-to-horse@xrxr",
+  "description": "Replace 'forces' with 'horses', inspired by XKCD",
+  "author": "Alan \"XrXr\" Wu",
+  "license": "MPL 2.0",
+  "version": "0.1"
+}
