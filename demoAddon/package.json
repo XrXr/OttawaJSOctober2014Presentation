@@ -5,5 +5,17 @@
   "description": "Replace 'forces' with 'horses', inspired by XKCD",
   "author": "Alan \"XrXr\" Wu",
   "license": "MPL 2.0",
-  "version": "0.1"
+  "version": "0.1",
+  "preferences": [{
+    "name": "pattern",
+    "title": "Patterns separated by |",
+    "type": "string",
+    "value": "force|Force"
+  },
+  {
+    "name": "result",
+    "title": "Results separated by |",
+    "type": "string",
+    "value": "horse|Horse"
+  }]
 }
