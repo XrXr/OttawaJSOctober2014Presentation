@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Firefox Add-on development with JavaScript</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/night.css" id="theme">
+
+        <!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> -->
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h3>Firefox Add-on development with JavaScript</h3>
+                    <aside class="notes">I think this is an interesting topic because everyday I spend a lot time inside by browser, so it's in my best interest to make my browsing experience as tailored as possible. </aside>
+				</section>
+
+				<section>
+<!--                     <section>
+                        <h1>Terms</h1>
+                        <ul>
+                            <li>plugin</li>
+                            <li>add-on</li>
+                            <li>extension</li>
+                        </ul>
+                        <aside class="notes">plugins are binary loaded by Firefox on demand of webpages, one prime example of this is Flash</aside>
+                    </section> -->
+                    <section>
+                        <h2>Types of add-ons</h2>
+                        <ul>
+                            <li class="fragment">overlay</li>
+                            <li class="fragment">restartless</li>
+                            <li class="fragment">sdk</li>
+                        </ul>
+                        <aside class="notes">overlay add-ons, which work by layering a special page on top of Firefox UI that can make modifications using JavaScript. installing one of these would require a restart before they can actually work.
+                        </aside>
+                    </section>
+                    <section>
+                        <h1>AMO</h1>
+                        <h3><a href="http://addons.mozilla.org">addons.mozilla.org</a></h3>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>ES6 Harmony</h2>
+                        <small>Just so I don't loose you</small>
+                        <aside class="notes">Before I go on I want to speak very very briefly about some features that are coming in ES6 Harmony. I want to talk about this since they've been available in Firefox for a while now and it's good practice to use them. This is by no mean an introduction to the topic, in fact many of the behaviors I'm going to be talking about are not draft compliant, they are just the current behavior of SpiderMonkey.</aside>
+                    </section>
+                    <section>
+                        <h2>Variable declearation</h2>
+<pre><code data-trim class="javascript">
+let foo = 1;  // same as var
+{
+    let bar = 2;
+}
+console.log(bar);  // ReferenceError: bar is not defined
+{
+    const baz = "Harmony is coming!";
+    baz = 100;
+}
+console.log(baz);  // scoped like var, outputs "Harmony is coming!"
+</code></pre>
+                    </section>
+                    <section>
+                        <aside class="notes">"good enough"</aside>
+                        <h3>Arrow function expressions</h3>
+                        <p>Connected by <code>=></code></p>
+                        <table>
+                            <thead>
+                                <th>Params</th>
+                                <th>Body</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>()</td><td><code>expression</code></td>
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <td><code>singleParam</code></td><td><code>{...return 0;}</code></td>
+                                </tr>
+                                <tr><td><code>(singleParam)</code></td><td></td></tr>
+                                <tr><td><code>(foo, bar, ...)</code></td><td></td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section>
+                    <h3>Arrow function expressions</h3>
+                    <pre><code data-trim class="javascript">
+() => 5 + 5;
+foo => foo + 5;
+(foo, bar) => foo + bar;
+() => {
+    //...
+    return 0;
+}
+foo => {
+    //...
+    return 0;
+}
+(foo, bar) => {
+    //...
+    return 0;
+}
+                    </code></pre>
+                    </section>
+                </section>
+
+
+                <section>
+                    <h2>Basics</h2>
+                    <p>The sdk implement parts of CommonJS, similar to Node.js</p>
+                    <p><code>require()</code> is slightly different</p>
+                    <pre><code data-trim class="javascript">
+// In Node.js this would look up a dependency called 'cat'
+require("cat/paws");
+// In Firefox add-on sdk, this is equvilent to
+require(".lib/cat/paws");
+// assuming this is in a module in the root directory of the add-on
+                    </code></pre>
+                </section>
+
+				<section>
+                    <h3>Enough talking, build an add-on already</h3>
+                    <img src="http://imgs.xkcd.com/comics/horse.png"></section>
+				</section>
+
+                <section>
+                    <h3>I'm not entertained, make it better</h3>
+                </section>
+
+                <section>
+                    <h2>Patching Firefox</h2>
+                </section>
+
+                <section>
+                    <h2>Well-behaved patch function</h2>
+                    <ul>
+                        <li class="fragment">Work when called at any time</li>
+                        <li class="fragment">Performant</li>
+                        <li class="fragment">Work nicely with other patch functions</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pick the right tool</h2>
+                </section>
+
+                <section>
+                    <h2>jpm, future replacement for cfx in Node.js</h2>
+                    <ul>
+                        <li>sharing modules via npm</li>
+                        <li>require will work exactly the same as the one in Node</li>
+                        <li>possibility of using other test frameworks</li>
+                        <li>Firefox will have native understanding of Jetpack code</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Alan Wu</h2>
+                    <span><a href="http://xrxr.me">xrxr.me</a></span>
+                </section>
+
+			</div>
+
+		</div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: "fade", // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+                    { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
